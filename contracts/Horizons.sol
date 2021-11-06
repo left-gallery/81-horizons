@@ -16,32 +16,31 @@ contract Horizons is ERC721, Ownable {
     string constant SVG_PROTOCOL_URI = "data:image/svg+xml;utf8,";
 
     string constant SVG_TOKEN_0 =
-    '<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 1200 800\\" shape-rendering=\\"crispEdges\\"><rect fill=\\"#';
-    string constant SVG_TOKEN_1 = '\\" width=\\"1200\\" height=\\"800\\"/><rect fill=\\"#';
-    string constant SVG_TOKEN_2 = '\\" y=\\"576\\" width=\\"1200\\" height=\\"224\\"/></svg>';
+        '<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 1200 800\\" shape-rendering=\\"crispEdges\\"><rect fill=\\"#';
+    string constant SVG_TOKEN_1 =
+        '\\" width=\\"1200\\" height=\\"800\\"/><rect fill=\\"#';
+    string constant SVG_TOKEN_2 =
+        '\\" y=\\"576\\" width=\\"1200\\" height=\\"224\\"/></svg>';
 
     uint8 constant MAX_SUPPLY = 81;
 
-    // 17 colors, RBG format.
+    // 17 colors, RBG format. A hex array would take half of the space of a
+    // string, but it would require more code to generate a string from it.
     bytes constant PALETTE =
         "72d0eb00a7a800a545006837b8ffdeffff9bffb43ec4e9fb29abe2bfbfbf0071bc060e9f060e574f4f4f000000ffe3fffea0c9";
 
     // Every byte represents the color palette of an artwork.
     // Note that the number of colors il 17 (from 0 to 16), so a byte is not
-    // enough to fit two colors, but...
+    // enough to fit two colors, but this is true for all artworks < 75.
+    // Artworks from 75, to 81 have as secondary color that is encoded to `F`.
+    // In `getSVG` there is some extra logic that checks the value of `tokenId`
+    // and, if it's the case, hardcodes the color number to 16.
     bytes ARTWORKS =
-        hex"0102030405060708097172737475767879a1a2a3a4a5a6a7a8abacadb1b2b3"
-        hex"b7b8bcebbdb9c3c8cbeccde3ebecede9d1d2d3d8dbdcedd991929394959697"
-        hex"989b9ce99df1f4f5f6f7f8f9"
-        // this is true for all artworks < 75. Artworks from 75, to 81 have as
-        // secondary color that is encoded to `F`. In `getSVG` there is some
-        // extra logic that checks the value of `tokenId` and, if it's the case,
-        // hardcodes the color number to 16.
-        hex"01040506070809";
-    
+        hex"0102030405060708097172737475767879a1a2a3a4a5a6a7a8abacadb1b2b3b7b8bcbebdb9c3c8cbcecd3ebecede9ed1d2d3d8dbdcded991929394959697989b9c9e9df1f4f5f6f7f8f901040506070809";
+
     constructor() ERC721("81 Horizons", "81H") {}
 
-        function safeMintAll(
+    function safeMintAll(
         address to,
         uint8 start,
         uint8 end
@@ -54,35 +53,37 @@ contract Horizons is ERC721, Ownable {
     }
 
     function getSVG(uint256 tokenId) public view returns (string memory) {
-        uint8 artwork = uint8(ARTWORKS[tokenId-1]);
+        uint8 artwork = uint8(ARTWORKS[tokenId - 1]);
         uint8 color1;
         uint8 color2 = (artwork & 0x0f) * 6;
         if (tokenId < 75) {
             color1 = (artwork >> 4) * 6;
-        }else {
+        } else {
             color1 = 16 * 6;
         }
 
         return
-            string(abi.encodePacked(
-                SVG_TOKEN_0,
-                PALETTE[color1],
-                PALETTE[color1+1],
-                PALETTE[color1+2],
-                PALETTE[color1+3],
-                PALETTE[color1+4],
-                PALETTE[color1+5],
+            string(
                 abi.encodePacked(
-                    SVG_TOKEN_1,
-                    PALETTE[color2],
-                    PALETTE[color2+1],
-                    PALETTE[color2+2],
-                    PALETTE[color2+3],
-                    PALETTE[color2+4],
-                    PALETTE[color2+5],
-                    SVG_TOKEN_2
+                    SVG_TOKEN_0,
+                    PALETTE[color1],
+                    PALETTE[color1 + 1],
+                    PALETTE[color1 + 2],
+                    PALETTE[color1 + 3],
+                    PALETTE[color1 + 4],
+                    PALETTE[color1 + 5],
+                    abi.encodePacked(
+                        SVG_TOKEN_1,
+                        PALETTE[color2],
+                        PALETTE[color2 + 1],
+                        PALETTE[color2 + 2],
+                        PALETTE[color2 + 3],
+                        PALETTE[color2 + 4],
+                        PALETTE[color2 + 5],
+                        SVG_TOKEN_2
+                    )
                 )
-            ));
+            );
     }
 
     function tokenURI(uint256 tokenId)
@@ -102,12 +103,8 @@ contract Horizons is ERC721, Ownable {
             getSVG(tokenId)
         );
 
-        bytes memory number;
-        if (tokenId < 10) {
-            number = abi.encodePacked("0", tokenId.toString());
-        } else {
-            number = abi.encodePacked(tokenId.toString());
-        }
+        bytes memory number = abi.encodePacked(tokenId.toString());
+
         bytes memory json = abi.encodePacked(
             '{"name":"',
             TITLE,
@@ -123,5 +120,4 @@ contract Horizons is ERC721, Ownable {
         );
         return string(abi.encodePacked("data:application/json,", json));
     }
-
 }

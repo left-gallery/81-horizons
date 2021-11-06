@@ -52,6 +52,14 @@ describe("Horizons smart contract", () => {
       let originalColor1 = match1 ? match1[1] : "000000";
       let originalColor2 = match2 ? match2[1] : "000000";
 
+      // Some artworks have only one color. In that case `cls-1` applies to the
+      // second rect of the SVG, that's why colors are swapped here.
+      if (!match1) {
+        const c1 = originalColor1;
+        originalColor1 = originalColor2;
+        originalColor2 = c1;
+      }
+
       const generatedSVG = await horizons.getSVG(tokenId);
       const matches = generatedSVG.matchAll(/fill=\\"#(......)\\"/g);
       const generatedColor1 = matches.next().value[1];
@@ -85,7 +93,7 @@ describe("Horizons smart contract", () => {
       data.slice(splitIndex + 1),
     ];
     const json = JSON.parse(rawJson);
-    expect(json.name).to.equal("Horizon 01");
+    expect(json.name).to.equal("Horizon 1");
     expect(json.description).to.equal(
       "81 Horizons is a collection of 81 on-chain landscapes.\n" +
         "Each work consists of a unique combination of " +

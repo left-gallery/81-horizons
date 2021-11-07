@@ -46,9 +46,10 @@ for path in sorted(glob.glob("./svg/*.svg")):
         color2 = match2.group(1)
     
 
+    # 35, 41, 54, 66
     # Some artworks have only one color. In that case `cls-1` applies to the
     # second rect of the SVG, that's why colors are swapped here.
-    if not match1:
+    if id in [35, 41, 54, 66]:
         color1, color2 = color2, color1
 
     if color1 not in palette:

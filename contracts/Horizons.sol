@@ -36,7 +36,7 @@ contract Horizons is ERC721, Ownable {
     // In `getSVG` there is some extra logic that checks the value of `tokenId`
     // and, if it's the case, hardcodes the color number to 16.
     bytes ARTWORKS =
-        hex"0102030405060708097172737475767879a1a2a3a4a5a6a7a8abacadb1b2b3b7b8bcbebdb9c3c8cbcecd3ebecede9ed1d2d3d8dbdcded991929394959697989b9c9e9df1f4f5f6f7f8f901040506070809";
+        hex"0102030405060708097172737475767879a1a2a3a4a5a6a7a8abacadb1b2b3b7b8bcbebdb9c3c8cbcecde3ebecede9d1d2d3d8dbdcded991929394959697989b9c9e9df1f4f5f6f7f8f901040506070809";
 
     constructor() ERC721("81 Horizons", "81H") {}
 

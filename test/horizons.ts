@@ -1,14 +1,13 @@
 import { ethers } from "hardhat";
 import chai from "chai";
-import { readdir, readFile } from "fs/promises";
+import { readdir, readFile, writeFile } from "fs/promises";
 import chaiAsPromised from "chai-as-promised";
 import { solidity } from "ethereum-waffle";
 import { Horizons__factory, Horizons } from "../typechain";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { toUtf8String } from "@ethersproject/strings";
 import path from "path";
 
-const SVGS_PATH = path.join(__dirname, "../svg");
+const SVGS_PATH = path.join(__dirname, "..", "svg");
 
 chai.use(solidity);
 chai.use(chaiAsPromised);
@@ -54,7 +53,7 @@ describe("Horizons smart contract", () => {
 
       // Some artworks have only one color. In that case `cls-1` applies to the
       // second rect of the SVG, that's why colors are swapped here.
-      if (!match1) {
+      if ([35, 41, 54, 66].includes(tokenId)) {
         const c1 = originalColor1;
         originalColor1 = originalColor2;
         originalColor2 = c1;
@@ -67,6 +66,15 @@ describe("Horizons smart contract", () => {
 
       expect(originalColor1).to.equal(generatedColor1);
       expect(originalColor2).to.equal(generatedColor2);
+      /*
+      const outfile = path.join(
+        __dirname,
+        "..",
+        "generated-svg",
+        tokenId + ".svg"
+      );
+      await writeFile(outfile, JSON.parse(`"${generatedSVG}"`));
+      */
     }
   });
 

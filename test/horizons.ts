@@ -16,6 +16,10 @@ const { expect } = chai;
 const AddressZero = ethers.constants.AddressZero;
 const AddressOne = AddressZero.replace(/.$/, "1");
 
+function base64Decode(data: string) {
+  return Buffer.from(data, "base64").toString("utf8");
+}
+
 describe("Horizons smart contract", () => {
   let horizons: Horizons;
   let alice: SignerWithAddress, bob: SignerWithAddress;
@@ -59,8 +63,9 @@ describe("Horizons smart contract", () => {
         originalColor2 = c1;
       }
 
-      const generatedSVG = await horizons.getSVG(tokenId);
-      const matches = generatedSVG.matchAll(/fill=\\"#(......)\\"/g);
+      const generatedSVG = base64Decode(await horizons.getSVG(tokenId));
+
+      const matches = generatedSVG.matchAll(/fill="#(......)"/g);
       const generatedColor1 = matches.next().value[1];
       const generatedColor2 = matches.next().value[1];
 
@@ -100,16 +105,17 @@ describe("Horizons smart contract", () => {
       data.slice(0, splitIndex),
       data.slice(splitIndex + 1),
     ];
-    const json = JSON.parse(rawJson);
+    const json = JSON.parse(base64Decode(rawJson));
     expect(json.name).to.equal("Horizon 1");
     expect(json.description).to.equal(
       "81 Horizons is a collection of 81 on-chain landscapes.\n" +
         "Each work consists of a unique combination of " +
         "two colored rectangles.\n" +
-        "Rafaël Rozendaal, 2021"
+        "Rafaël Rozendaal, 2021\n" +
+        "License: CC BY-NC-ND 4.0"
     );
     const svg = await horizons.getSVG(1);
-    const image = "data:image/svg+xml;utf8," + JSON.parse(`"${svg}"`);
+    const image = "data:image/svg+xml;base64," + svg;
     expect(json.image).to.equal(image);
   });
 });

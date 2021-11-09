@@ -5,20 +5,21 @@ pragma solidity ^0.8.2;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "./Base64.sol";
 
 contract Horizons is ERC721, Ownable {
     using Strings for uint256;
 
     string constant TITLE = "Horizon";
     string constant DESCRIPTION =
-        unicode"81 Horizons is a collection of 81 on-chain landscapes.\\nEach work consists of a unique combination of two colored rectangles.\\nRafaël Rozendaal, 2021";
+        unicode"81 Horizons is a collection of 81 on-chain landscapes.\\nEach work consists of a unique combination of two colored rectangles.\\nRafaël Rozendaal, 2021\\nLicense: CC BY-NC-ND 4.0";
 
-    string constant SVG_PROTOCOL_URI = "data:image/svg+xml;charset=UTF-8,";
+    string constant SVG_PROTOCOL_URI = "data:image/svg+xml;base64,";
 
     string constant SVG_TOKEN_0 =
-        "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800' shape-rendering='crispEdges'><rect fill='#'";
-    string constant SVG_TOKEN_1 = "' width='1200' height='800'/><rect fill='#";
-    string constant SVG_TOKEN_2 = "' y='576' width='1200' height='224'/></svg>";
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" shape-rendering="crispEdges"><rect fill="#';
+    string constant SVG_TOKEN_1 = '" width="1200" height="800"/><rect fill="#';
+    string constant SVG_TOKEN_2 = '" y="576" width="1200" height="224"/></svg>';
 
     uint8 constant MAX_SUPPLY = 81;
 
@@ -61,7 +62,7 @@ contract Horizons is ERC721, Ownable {
         }
 
         return
-            string(
+            Base64.encode(
                 abi.encodePacked(
                     SVG_TOKEN_0,
                     PALETTE[color1],
@@ -118,7 +119,10 @@ contract Horizons is ERC721, Ownable {
         );
         return
             string(
-                abi.encodePacked("data:application/json;charset=UTF-8,", json)
+                abi.encodePacked(
+                    "data:application/json;base64,",
+                    Base64.encode(json)
+                )
             );
     }
 }

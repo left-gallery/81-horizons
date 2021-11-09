@@ -1,30 +1,39 @@
-![Test workflow](https://github.com/vrde/hardhat-typescript-template/actions/workflows/node.yml/badge.svg)
+# 81 Horizons
 
-# HardHat TypeScript Template
+Project Title: 81 Horizons
+Artist: Rafaël Rozendaal
+Year: 2021
+Description: 81 Horizons is a collection of 81 on-chain landscapes.
+Each work consists of a unique combination of two colored rectangles.
+License: CC BY-NC-ND 4.0
 
-```bash
-npx degit https://github.com/vrde/hardhat-typescript-template\#main contracts
-```
+Titles of NFTs:
+Horizon 1
+Horizon 2
+etc
+Horizon 81
 
-## What's included
+Wallet Rafaël Rozendaal:
+0x0F441cFaD93287109F5eF834bF52F4aaaa8d8ffa
 
-- CI with GitHub actions.
-- TypeScript configuration.
-- Sample `Storage` contract and tests.
-- Tasks:
-  - `deploy`
-  - `store` to store a value
-  - `retrieve` to retrieve the current value
+## Metadata
 
-## Run it
+Token name:
+81 Horizons
 
-If you just want to run tests, then `npm test` is your friend.
+Token symbol:
+81H
 
-If you want to play with the tasks, run your favorite Ethereum development node (mine is [ethnode](https://github.com/vrde/ethnode/), give it a try).
+name:
+Horizon
 
-When the node is running, try the following commands
+description:
+81 Horizons is a collection of 81 on-chain landscapes.
+Each work consists of a unique combination of two colored rectangles.
+Rafaël Rozendaal, 2021
+License: CC BY-NC-ND 4.0
 
-- `npx hardhat --network localhost deploy` to deploy the contract in your local node.
-- `npx hardhat --network localhost store 666` to store a new value in the contract.
-- `npx hardhat --network localhost retrieve` to retrieve the current value.
-- `npx hardhat --network localhost retrieve --hex` to retrieve the current value in hex.
+## Data
+
+Deploy: 2,072,520 gas ~0.2 ETH
+Mint: ~26,139 gas ~0.03 ETH

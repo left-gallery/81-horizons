@@ -14,6 +14,7 @@ contract Horizons is ERC721, Ownable {
     string constant DESCRIPTION =
         unicode"81 Horizons is a collection of 81 on-chain landscapes.\\nEach work consists of a unique combination of two colored rectangles.\\nRafaël Rozendaal, 2021\\nLicense: CC BY-NC-ND 4.0";
 
+    string constant JSON_PROTOCOL_URI = "data:application/json;base64,";
     string constant SVG_PROTOCOL_URI = "data:image/svg+xml;base64,";
 
     string constant SVG_TOKEN_0 =
@@ -117,12 +118,6 @@ contract Horizons is ERC721, Ownable {
             image,
             '"}'
         );
-        return
-            string(
-                abi.encodePacked(
-                    "data:application/json;base64,",
-                    Base64.encode(json)
-                )
-            );
+        return string(abi.encodePacked(JSON_PROTOCOL_URI, Base64.encode(json)));
     }
 }

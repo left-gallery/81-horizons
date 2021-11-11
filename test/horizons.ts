@@ -108,10 +108,10 @@ describe("Horizons smart contract", () => {
     const json = JSON.parse(base64Decode(rawJson));
     expect(json.name).to.equal("Horizon 1");
     expect(json.description).to.equal(
-      "81 Horizons is a collection of 81 on-chain landscapes.\n" +
+      "81 Horizons is a collection of 81 on-chain landscapes.\n\n" +
         "Each work consists of a unique combination of " +
-        "two colored rectangles.\n" +
-        "Rafaël Rozendaal, 2021\n" +
+        "two colored rectangles.\n\n" +
+        "Rafaël Rozendaal, 2021\n\n" +
         "License: CC BY-NC-ND 4.0"
     );
     const svg = await horizons.getSVG(1);

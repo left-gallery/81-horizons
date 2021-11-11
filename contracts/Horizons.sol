@@ -12,7 +12,7 @@ contract Horizons is ERC721, Ownable {
 
     string constant TITLE = "Horizon";
     string constant DESCRIPTION =
-        unicode"81 Horizons is a collection of 81 on-chain landscapes.\\nEach work consists of a unique combination of two colored rectangles.\\nRafaël Rozendaal, 2021\\nLicense: CC BY-NC-ND 4.0";
+        unicode"81 Horizons is a collection of 81 on-chain landscapes.\\n\\nEach work consists of a unique combination of two colored rectangles.\\n\\nRafaël Rozendaal, 2021\\n\\nLicense: CC BY-NC-ND 4.0";
 
     string constant JSON_PROTOCOL_URI = "data:application/json;base64,";
     string constant SVG_PROTOCOL_URI = "data:image/svg+xml;base64,";

@@ -43,13 +43,20 @@ contract Horizons is ERC721, Ownable {
     function safeMintAll(
         address to,
         uint8 start,
-        uint8 end
+        uint8 end,
+        uint8 step
     ) external onlyOwner {
         require(start > 0, "Horizons: invalid tokenId");
         require(end <= MAX_SUPPLY, "Horizons: supply exceeded");
-        for (uint256 tokenId = start; tokenId <= end; tokenId++) {
+        for (uint256 tokenId = start; tokenId <= end; tokenId += step) {
             _safeMint(to, tokenId);
         }
+    }
+
+    function safeMint(address to, uint8 tokenId) external onlyOwner {
+        require(tokenId > 0, "Horizons: invalid tokenId");
+        require(tokenId <= MAX_SUPPLY, "Horizons: supply exceeded");
+        _safeMint(to, tokenId);
     }
 
     function getSVG(uint256 tokenId) public view returns (string memory) {

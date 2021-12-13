@@ -83,22 +83,56 @@ describe("Horizons smart contract", () => {
     }
   });
 
-  it("Allows the owner to mint tokens up to MAX_SUPPLY", async () => {
-    await aliceH.safeMintAll(alice.address, 1, 10);
-    await expect(bobH.safeMintAll(bob.address, 11, 11)).to.revertedWith(
+  it("Allows the owner to mint all tokens up to MAX_SUPPLY", async () => {
+    // Mint tokens 1 to 10
+    await aliceH.safeMintAll(alice.address, 1, 10, 1);
+    await expect(bobH.safeMintAll(bob.address, 11, 11, 1)).to.revertedWith(
       "Ownable: caller is not the owner"
     );
-    await aliceH.safeMintAll(alice.address, 11, 81);
-    await expect(aliceH.safeMintAll(alice.address, 0, 0)).to.revertedWith(
+
+    // Mint tokens 11, 13, ..., 81
+    await aliceH.safeMintAll(alice.address, 11, 81, 2);
+
+    // Check existance
+    expect(await aliceH.ownerOf(11)).equal(alice.address);
+    await expect(aliceH.ownerOf(12)).to.revertedWith(
+      "ERC721: owner query for nonexistent token"
+    );
+    expect(await aliceH.ownerOf(13)).equal(alice.address);
+    await expect(aliceH.ownerOf(14)).to.revertedWith(
+      "ERC721: owner query for nonexistent token"
+    );
+    expect(await aliceH.ownerOf(15)).equal(alice.address);
+    expect(await aliceH.ownerOf(81)).equal(alice.address);
+    await expect(aliceH.ownerOf(82)).to.revertedWith(
+      "ERC721: owner query for nonexistent token"
+    );
+
+    await expect(aliceH.safeMintAll(alice.address, 0, 0, 1)).to.revertedWith(
       "Horizons: invalid tokenId"
     );
-    await expect(aliceH.safeMintAll(alice.address, 82, 100)).to.revertedWith(
+    await expect(aliceH.safeMintAll(alice.address, 82, 100, 1)).to.revertedWith(
+      "Horizons: supply exceeded"
+    );
+    await expect(aliceH.safeMintAll(alice.address, 0, 0, 2)).to.revertedWith(
+      "Horizons: invalid tokenId"
+    );
+    await expect(aliceH.safeMintAll(alice.address, 82, 100, 2)).to.revertedWith(
       "Horizons: supply exceeded"
     );
   });
 
+  it("Allows the owner to mint one token up to MAX_SUPPLY", async () => {
+    await aliceH.safeMint(alice.address, 1);
+    await expect(bobH.safeMint(bob.address, 2)).to.revertedWith(
+      "Ownable: caller is not the owner"
+    );
+    await aliceH.safeMintAll(alice.address, 11, 80, 1);
+    await aliceH.safeMint(alice.address, 81);
+  });
+
   it("Returns a valid JSON file", async () => {
-    await aliceH.safeMintAll(alice.address, 1, 1);
+    await aliceH.safeMintAll(alice.address, 1, 1, 1);
     const data = await horizons.tokenURI(1);
     const splitIndex = data.indexOf(",");
     const [mediaType, rawJson] = [

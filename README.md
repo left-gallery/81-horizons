@@ -60,3 +60,10 @@ for verification on Etherscan. Waiting for verification result...
 Successfully verified contract Horizons on Etherscan.
 https://rinkeby.etherscan.io/address/0x8b082c46207057E7E541411edeEB4927042171D1#code
 ```
+
+`safeMint` 71,221
+
+- Allocation: 1 for Rafaël, 2 for Nieck, 3 for Harm, 81 for Albi
+- Albi: deploy with `0x995A25A5bC27c239cC40453CE4a436532b9FC01C`
+- Albi: mint all odd numbers (5, 7, ..., 79) to `0x995A25A5bC27c239cC40453CE4a436532b9FC01C`
+- Albi: mint 81 for Albi

@@ -1,7 +1,0 @@
-- In the original SVG there is `id` and `data-name` that can be removed to save a bit of gas.
-- In the original SVG colors are defined in the `<style>` tag. By moving the colors in the `<rect />` itself we can save space and gas.
-- Horizon 19 uses the SVG tag `<polygon />` instead of `<rect />` like all other artworks do. Is it on purpose?
-- I recommend using `shape-rendering="crispEdges"` in the definition of the SVG to avoid issues on scaling (I have an example).
-- Adding some bleeding to the right side may also fix some other rendering issues.
-
-If my recommendations are implemented, we go from 283 bytes of the original SVG to 203 bytes.

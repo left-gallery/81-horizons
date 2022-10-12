@@ -12,22 +12,28 @@ contract Horizons is ERC721, Ownable {
 
     string constant TITLE = "Horizon";
     string constant DESCRIPTION =
-        unicode"81 Horizons is a collection of 81 on-chain landscapes.\\n\\nEach work consists of a unique combination of two colored rectangles.\\n\\nRafaël Rozendaal, 2021\\n\\nLicense: CC BY-NC-ND 4.0";
+        unicode"81 Horizons is a collection of 81 on-chain landscapes.\\n\\n"
+        unicode"Each work consists of a unique combination of two colored "
+        unicode"rectangles.\\n\\n"
+        unicode"Rafaël Rozendaal, 2021\\n\\n"
+        unicode"License: CC BY-NC-ND 4.0";
 
     string constant JSON_PROTOCOL_URI = "data:application/json;base64,";
     string constant SVG_PROTOCOL_URI = "data:image/svg+xml;base64,";
 
     string constant SVG_TOKEN_0 =
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" shape-rendering="crispEdges"><rect fill="#';
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" '
+        'shape-rendering="crispEdges"><rect fill="#';
     string constant SVG_TOKEN_1 = '" width="1200" height="800"/><rect fill="#';
     string constant SVG_TOKEN_2 = '" y="576" width="1200" height="224"/></svg>';
 
     uint8 constant MAX_SUPPLY = 81;
 
-    // 17 colors, RBG format. A hex array would take half of the space of a
+    // 17 colors, RGB format. A hex array would take half of the space of a
     // string, but it would require more code to generate a string from it.
     bytes constant PALETTE =
-        "72d0eb00a7a800a545006837b8ffdeffff9bffb43ec4e9fb29abe2bfbfbf0071bc060e9f060e574f4f4f000000ffe3fffea0c9";
+        "72d0eb00a7a800a545006837b8ffdeffff9bffb43ec4e9fb29abe2bfbfbf0071bc"
+        "060e9f060e574f4f4f000000ffe3fffea0c9";
 
     // Every byte represents the color palette of an artwork.
     // Note that the number of colors il 17 (from 0 to 16), so a byte is not
@@ -36,7 +42,9 @@ contract Horizons is ERC721, Ownable {
     // In `getSVG` there is some extra logic that checks the value of `tokenId`
     // and, if it's the case, hardcodes the color number to 16.
     bytes ARTWORKS =
-        hex"0102030405060708097172737475767879a1a2a3a4a5a6a7a8abacadb1b2b3b7b8bcbebdb9c3c8cbcecde3ebecede9d1d2d3d8dbdcded991929394959697989b9c9e9df1f4f5f6f7f8f901040506070809";
+        hex"0102030405060708097172737475767879a1a2a3a4a5a6a7a8abacadb1b2b3b7"
+        hex"b8bcbebdb9c3c8cbcecde3ebecede9d1d2d3d8dbdcded991929394959697989b"
+        hex"9c9e9df1f4f5f6f7f8f901040506070809";
 
     constructor() ERC721("81 Horizons", "81H") {}
 
